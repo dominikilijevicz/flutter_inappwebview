@@ -2714,7 +2714,12 @@ public class InAppWebView: WKWebView, UIScrollViewDelegate, WKUIDelegate, WKNavi
             }
         })
         
-        return windowWebView
+        if let frame = navigationAction.targetFrame, frame.isMainFrame {
+            return windowWebView
+        }
+        // for _blank target or non-mainFrame target
+        webView.load(navigationAction.request)
+        return nil
     }
     
     public func webViewDidClose(_ webView: WKWebView) {
